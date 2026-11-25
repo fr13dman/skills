@@ -1,11 +1,17 @@
 ---
-name: code-walkthrough
-description: Map and explain a codebase, project, repository URL, or local checkout. Use for architecture onboarding, design-pattern explanations, entity glossaries, security and performance reviews, and at least three use-case walkthroughs with linked source snippets, explicit parameters, and request/response examples. Prefer Excalidraw visuals, offer Mermaid or both, and finish with no more than three comprehension questions.
+name: code-atlas
+description: Map and explain a codebase, project, repository URL, or local checkout. Use for architecture onboarding, design-pattern explanations, entity glossaries, security and performance reviews, and at least three use-case walkthroughs with linked source snippets, explicit parameters, and request/response examples. Deliver a standalone HTML walkthrough with an embedded architecture diagram.
 ---
 
-# Code Walkthrough
+# Code Atlas
 
 Explain how this particular project works. Keep the narrative short, concrete, and grounded in inspected code. Teach architecture before implementation details, then follow real use cases through the source.
+
+## Deliver the walkthrough as HTML
+
+Save the full walkthrough in the user's requested output location or the environment's artifact directory as `<codebase-slug>-code-atlas-<YYYYMMDDTHHMMSSZ>.html`. Derive the slug from the repository name or the local project or archive name. Lowercase it, replace runs of characters outside `a-z` and `0-9` with one hyphen, trim leading and trailing hyphens, and use `codebase` if the result is empty. Use the current UTC time when saving the report, for example `my-project-code-atlas-20261120T153045Z.html`. If the path already exists, append `-2` before `.html`, increasing the number until the path is unused. Link the saved page in the final response and use the environment's preview when available. Keep the chat response brief. If the user requests another output format, honor it.
+
+Use embedded CSS, semantic headings, and a table of contents with working section links. Keep tables, code blocks, and the diagram readable on narrow screens. Escape source excerpts and repository-supplied text as HTML, and validate source link targets before embedding them. The page and diagram must open from disk without a server, external fonts, or a CDN. Use inline JavaScript only to enhance navigation. The complete walkthrough must remain readable with JavaScript disabled.
 
 ## 1. Resolve and inspect the codebase
 
@@ -40,7 +46,7 @@ Look for patterns such as dependency injection, repository, adapter, strategy, d
 
 Offer: **Excalidraw (default): editable architecture map; Mermaid: inline diagram as code; Both: editable map plus inline version.** Honor any existing preference without asking again. Present the options briefly and proceed with Excalidraw unless the user selects another format. Do not block the walkthrough waiting for an optional choice.
 
-Read [visuals.md](references/visuals.md) before creating the visual. Use the environment's available diagram and artifact capabilities, without requiring an external account or unavailable integration. Provide a real visual, not only a description or raw JSON. Prefer a rendered Excalidraw preview and its editable `.excalidraw` file when supported. If Excalidraw creation or rendering is unavailable, explain the limitation and produce a faithful SVG or inline Mermaid fallback. Clearly identify the format actually generated, and never claim a fallback is an Excalidraw rendering.
+Read [visuals.md](references/visuals.md) before creating the visual. Use the environment's available diagram and artifact capabilities, without requiring an external account or unavailable integration. Embed a rendered architecture diagram in the HTML. Prefer an Excalidraw SVG export and provide the editable `.excalidraw` file when supported. For Mermaid, embed a rendered SVG when available. If the requested renderer is unavailable, draw a faithful inline SVG from the verified component map and identify the format.
 
 Keep the overview to roughly 4–9 meaningful components; use fewer for small repos. Split dense systems into an overview and a focused use-case flow. Label edges by their actual meaning: calls, publishes, reads, writes, or imports. Distinguish synchronous calls, asynchronous events, and inferred edges with a legend. Include a short text description so the visual is understandable without color.
 
@@ -63,6 +69,19 @@ For each use case:
 3. For each important handoff, name the file and symbol and show a short exact source snippet that includes the relevant function signature and parameters, plus the call site where possible. Show what each meaningful argument contains in this use case, how it maps to the parameter, and what returns to the caller. Include object fields, injected dependencies, defaults, and async behavior where necessary to understand the handoff. If the signature and call site are separated, use two short linked excerpts rather than a large block. Prefer 5–20 lines per excerpt; keep necessary signatures even when longer. Skip incidental boilerplate.
 4. Explain meaningful transformations, state changes, awaited work, event consumers, and external boundaries. Distinguish control flow from data flow.
 5. Trace one relevant failure or alternative path if present. Show a supporting test when it clarifies behavior. Distinguish statically traced behavior from behavior actually executed.
+
+### Present each use case as an interactive execution trace
+
+In HTML, give each use case its own Previous and Next buttons, a step count, and a visible route through the components. Use one concrete example from the initial request or trigger through the final response or effect. Break at meaningful handoffs. A step should answer four questions:
+
+- **What just arrived?** Show the relevant request fields or values handed over by the previous step.
+- **What code handles it?** Show the exact linked source for the responsible symbol, including the call site or branch when it explains what happens next.
+- **What changed?** Tie the concrete values to the code that validates, transforms, reads, writes, or emits them.
+- **Where does it go next?** Show the outgoing arguments, return value, or event. Start the next step with those same values. Include the final status and response body for HTTP, or the equivalent output for other entry points.
+
+Highlight the active component in the route. Show asynchronous consumers and alternative branches as distinct paths where order depends on scheduling or a condition. State the branch condition and avoid implying that both paths run for the same input.
+
+Render every step as a numbered, semantic HTML section first. Enhance the page with small inline JavaScript that shows one step at a time per use case, updates the progress label, disables unavailable buttons, and moves keyboard focus to the newly shown heading. Keep the steps visible and hide the controls if JavaScript is disabled. Navigation reads the prewritten trace and never executes repository code or sends a request.
 
 Read [source-links.md](references/source-links.md) for excerpts, parameter examples, and citations. Never invent code, line numbers, symbols, remote URLs, or successful test results. Mark omitted lines explicitly; label explanatory pseudocode as pseudocode and keep it separate from exact excerpts. Label request/response examples as recorded, test-fixture-derived, or illustrative and statically traced. Ground illustrative schemas and behavior in inspected code; do not present hypothetical fares, IDs, timings, or other values as observed results. Keep concrete example calls separate from verbatim repository code.
 
@@ -90,7 +109,7 @@ Close the explanation with a brief practical pointer: where a developer would ch
 
 ## 8. End with at most three comprehension questions
 
-End the walkthrough with 1–3 concise questions tied to code just explained. Use fewer for a small walkthrough. Cover component responsibility, execution or data flow, and a small change or failure scenario when appropriate. Avoid trivia, trick questions, generic framework quizzes, and questions requiring uninspected source.
+End the walkthrough page with 1–3 concise questions tied to code just explained. Use fewer for a small walkthrough. Cover component responsibility, execution or data flow, and a small change or failure scenario when appropriate. Avoid trivia, trick questions, generic framework quizzes, and questions requiring uninspected source.
 
 Do not reveal answers before the user attempts them. Stop after the questions; do not append an offer, summary, or more questions. When the user answers, give brief, specific feedback with the relevant source pointer and correct misunderstandings without restarting the whole walkthrough. Add no new quiz unless requested.
 
@@ -105,7 +124,7 @@ Do not reveal answers before the user attempts them. Stop after the questions; d
 - Include security standards evidence, Authn and Authz design, and clearly bounded gaps/unknowns.
 - Explain implemented performance mechanisms and algorithms, including limits; separate suggestions from existing behavior.
 - Support major claims and diagram edges with inspected source; flag gaps.
-- Deliver the requested diagram format honestly, with readable labels and no hidden overlap.
-- Verify that source links and excerpts match the inspected files.
+- Open the saved HTML in a browser when available and check the embedded diagram for clipping, overlap, and readable labels. Check the section links and confirm the diagram uses no external assets. If browser preview is unavailable, verify the HTML and report that visual verification was unavailable.
+- Verify that source links and excerpts match the inspected files. Follow a trace from request to response and confirm that values carry across adjacent steps. In a browser, exercise Previous and Next with the keyboard, check both endpoints and independent navigation across use cases, and confirm all steps are readable with JavaScript disabled.
 - Keep the default explanation compact; expand only where understanding requires it.
 - End with no more than three unanswered comprehension questions.
