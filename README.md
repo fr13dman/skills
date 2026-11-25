@@ -27,43 +27,43 @@ npx skills@latest add fr13dman/skills
 Install one skill directly:
 
 ```bash
-npx skills@latest add fr13dman/skills --skill code-walkthrough
+npx skills@latest add fr13dman/skills --skill code-atlas
 ```
 
 Install it for a specific agent:
 
 ```bash
 # Codex
-npx skills@latest add fr13dman/skills --skill code-walkthrough -a codex
+npx skills@latest add fr13dman/skills --skill code-atlas -a codex
 
 # Claude Code
-npx skills@latest add fr13dman/skills --skill code-walkthrough -a claude-code
+npx skills@latest add fr13dman/skills --skill code-atlas -a claude-code
 
 # Cursor
-npx skills@latest add fr13dman/skills --skill code-walkthrough -a cursor
+npx skills@latest add fr13dman/skills --skill code-atlas -a cursor
 ```
 
 Add `-g` for a global installation available across projects. Add `-y` to skip confirmation prompts:
 
 ```bash
-npx skills@latest add fr13dman/skills --skill code-walkthrough -a codex -g -y
+npx skills@latest add fr13dman/skills --skill code-atlas -a codex -g -y
 ```
 
 ## Available skills
 
 | Skill | What it does | Install |
 | --- | --- | --- |
-| [`code-walkthrough`](./skills/code-walkthrough/) | Maps an unfamiliar codebase through verified architecture, design patterns, diagrams, entity glossaries, real use-case traces, and security and performance analysis. | `npx skills@latest add fr13dman/skills --skill code-walkthrough` |
+| [`code-atlas`](./skills/code-atlas/) | Maps an unfamiliar codebase through verified architecture, design patterns, diagrams, entity glossaries, real use-case traces, and security and performance analysis. | `npx skills@latest add fr13dman/skills --skill code-atlas` |
 
-### Code Walkthrough
+### Code Atlas
 
-`code-walkthrough` creates an evidence-based guide to a local project, source archive, checkout, or repository URL. It:
+`code-atlas` creates an evidence-based guide to a local project, source archive, checkout, or repository URL. It:
 
 - Builds a source-linked architecture and component map
 - Explains design patterns using their actual implementations and callers
-- Produces an editable Excalidraw visual when supported, with Mermaid or SVG fallbacks
+- Delivers a standalone HTML walkthrough with an embedded architecture diagram and offers editable diagram source when supported
 - Defines the important classes, interfaces, entities, events, and data models
-- Traces at least three real use cases with signatures, parameters, and inputs and outputs
+- Guides readers through at least three real use cases with interactive steps that connect the request, exact source excerpts, intermediate values, and final response
 - Reviews authentication, authorization, security controls, performance mechanisms, and algorithms
 - Ends with up to three focused comprehension questions
 
@@ -75,7 +75,7 @@ Example request:
 Walk me through this repository's architecture and trace three important use cases.
 ```
 
-Agents that support explicit invocation may expose it as `$code-walkthrough` in Codex or `/code-walkthrough` in Claude Code.
+Agents that support explicit invocation may expose it as `$code-atlas` in Codex or `/code-atlas` in Claude Code.
 
 ## Manage installed skills
 
@@ -87,10 +87,10 @@ npx skills@latest list
 npx skills@latest check
 
 # Update this skill
-npx skills@latest update code-walkthrough
+npx skills@latest update code-atlas
 
 # Remove this skill
-npx skills@latest remove code-walkthrough
+npx skills@latest remove code-atlas
 ```
 
 ## Repository structure
@@ -100,7 +100,7 @@ npx skills@latest remove code-walkthrough
 ├── assets/
 │   └── agent-skills-hero.png
 ├── skills/
-│   └── code-walkthrough/
+│   └── code-atlas/
 │       ├── SKILL.md
 │       ├── agents/
 │       │   └── openai.yaml

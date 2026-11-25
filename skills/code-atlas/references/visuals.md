@@ -10,7 +10,7 @@ Create an editable `.excalidraw` scene through a supported Excalidraw integratio
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "code-walkthrough",
+  "source": "code-atlas",
   "elements": [],
   "appState": {"viewBackgroundColor": "#ffffff"},
   "files": {}
@@ -39,4 +39,4 @@ Use a compact flowchart for component relationships and a sequence diagram only 
 
 ## Deliverables
 
-Include the rendered or alternate preview in the walkthrough and offer the editable file as an artifact. Save generated artifacts according to the environment's normal persistence rules. Do not modify the inspected repository merely to store diagrams unless the user requests it. If a format cannot be generated, state the concrete limitation and provide the best available visual while preserving the user's requested preference for a later conversion.
+Embed the rendered diagram as inline SVG in the HTML walkthrough. Use a responsive SVG with a viewBox, an accessible title and description, and a visible caption. Use only static SVG elements and local fragment references such as arrow markers. Offer the editable source as a separate artifact when available. Save generated artifacts according to the environment's normal persistence rules. Do not modify the inspected repository merely to store diagrams unless the user requests it. If a format cannot be generated, state the concrete limitation and provide the best available visual while preserving the user's requested preference for a later conversion.

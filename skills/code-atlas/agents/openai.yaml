@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Atlas"
+  short_description: "Explain architecture, code flows, security and performance"
+  default_prompt: "Use $code-atlas on this repository: explain architecture and design patterns, offer Excalidraw or Mermaid visuals followed by an entity glossary, trace at least three use cases with linked signatures, parameters and request/response examples, evaluate security and performance, and end with at most three comprehension questions."
